@@ -27,10 +27,12 @@ class ProductsListPage extends StatelessWidget {
               color: snapshot.hasData && snapshot.data
                   ? Colors.white
                   : primaryColor,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30.0),
-                bottomRight: Radius.circular(30.0),
-              ),
+              borderRadius: snapshot.hasData && snapshot.data
+                  ? BorderRadius.all(Radius.zero)
+                  : BorderRadius.only(
+                      bottomLeft: Radius.circular(30.0),
+                      bottomRight: Radius.circular(30.0),
+                    ),
             ),
             child: AnimatedOpacity(
               duration: Duration(milliseconds: 500),
@@ -113,6 +115,8 @@ class BodySection extends StatelessWidget {
             products.length,
             (index) => GestureDetector(
               onTap: () {
+                (BlocProvider.of(context).bloc as Bloc)
+                    .triggerTransitionAnimation();
                 productSelected(products[index]);
               },
               child: ProductCard(

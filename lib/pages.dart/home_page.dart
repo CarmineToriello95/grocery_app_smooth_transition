@@ -4,6 +4,7 @@ import '../bloc/bloc.dart';
 import '../bloc/bloc_provider.dart';
 import '../models/product.dart';
 import 'cart_page.dart';
+import 'product_description_page.dart';
 import 'products_list_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -65,6 +66,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               productSelected: (product) async {
                                 var value = await Navigator.of(context)
                                     .push(_createRoute(product));
+                                Future.delayed(Duration(milliseconds: 200),
+                                    () => _bloc.triggerTransitionAnimation());
                                 if (value) {
                                   listKey.currentState.insertItem(
                                     0,
@@ -89,8 +92,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => BlocProvider(
         bloc: _bloc,
-        // child: ProductDescriptionPage(
-        //     imageHeroTag: product.id, animation: animation, product: product),
+        child: ProductDescriptionPage(
+            imageHeroTag: product.id, animation: animation, product: product),
       ),
       transitionDuration: const Duration(milliseconds: 1000),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {

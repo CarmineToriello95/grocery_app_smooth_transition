@@ -39,7 +39,7 @@ class Bloc {
       }
     });
     if (!isProductInTheCartList) {
-      _lCartItems.insert(0, CartItem(product: product, quantity: quantity));
+      _lCartItems.insert(0, CartItem(product: product, quantity: quantity,id: product.id));
     }
     _bCartItems.sink.add(_lCartItems);
   }

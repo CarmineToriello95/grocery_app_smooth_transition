@@ -57,7 +57,7 @@ class _CartPageState extends State<CartPage> {
                         tag: '${_bloc.cartItems[index].product.id}' + 'c',
                         child: CircleAvatar(
                           backgroundColor: Colors.white,
-                          radius: 30.0,
+                          radius: 25.0,
                           child: Image.asset(
                             _bloc.cartItems[index].product.imagePath,
                             height: 35.0,
