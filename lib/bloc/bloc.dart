@@ -1,5 +1,5 @@
-import 'package:grocery_app_smooth_transition/model/cart_item.dart';
-import 'package:grocery_app_smooth_transition/model/product.dart';
+import '../models/cart_item.dart';
+import '../models/product.dart';
 
 import 'package:rxdart/rxdart.dart';
 
@@ -23,7 +23,7 @@ class Bloc {
 
   Stream<List<Product>> get sProductsList => _bProductsList.stream;
   Stream<List<CartItem>> get sCartItems => _bCartItems.stream;
-  Stream<bool> get sIsProductTappedForDetail =>
+  Stream<bool> get sShowTransitionAnimation =>
       _bShowTransitionAnimation.stream;
   Stream<bool> get sIsSlidingToCart => _bIsSlidingToCart.stream;
 

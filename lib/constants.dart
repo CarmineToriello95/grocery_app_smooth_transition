@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'model/cart_item.dart';
-import 'model/product.dart';
+import 'models/cart_item.dart';
+import 'models/product.dart';
 
 const Color primaryColor = Color(0xFFF5F4EF);
 const Color cartPageTextColor = Color(0xFFFFFFFF);
