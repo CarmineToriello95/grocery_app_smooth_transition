@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app_smooth_transition/widget/custom_overlay.dart';
 
 import '../bloc/bloc.dart';
 import '../bloc/bloc_provider.dart';
@@ -59,13 +60,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         child: StreamBuilder<bool>(
                           stream: _bloc.sShowTransitionAnimation,
                           builder: (_, snapshot) {
-                            return ProductsListPage(
-                              productSelected: (product) async {
-                                await Navigator.of(context)
-                                    .push(_createRoute(product));
-                                Future.delayed(
-                                  Duration(milliseconds: 200),
-                                  () => _bloc.triggerTransitionAnimation(),
+                            return StreamBuilder<bool>(
+                              stream: _bloc.sIsOverlayActive,
+                              builder: (_, overlay) {
+                                return CustomOverlayWidget(
+                                  active: overlay.data ?? false,
+                                  child: ProductsListPage(
+                                    productSelected: (product) async {
+                                      await Navigator.of(context)
+                                          .push(_createRoute(product));
+                                      Future.delayed(
+                                        Duration(milliseconds: 200),
+                                        () =>
+                                            _bloc.triggerTransitionAnimation(),
+                                      );
+                                    },
+                                  ),
                                 );
                               },
                             );
@@ -90,15 +100,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
       transitionDuration: const Duration(milliseconds: 1000),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        // var begin = Offset(0.0, 1.0);
-        // var end = Offset.zero;
-        // var curve = Curves.ease;
-
-        // var tween = Tween(begin: begin, end: end);
-        // var curvedAnimation = CurvedAnimation(
-        //   parent: animation,
-        //   curve: curve,
-        // );
         return child;
       },
     );
@@ -130,10 +131,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       double visualVelocity = -(details.velocity.pixelsPerSecond.dy /
           MediaQuery.of(context).size.height);
       animation.fling(velocity: visualVelocity);
+      _bloc.triggerOverlay();
     } else if (animation.value > 0.5) {
       animation.forward();
+      _bloc.activeOverlay();
     } else {
       animation.reverse();
+      _bloc.disableOverlay();
     }
   }
 }

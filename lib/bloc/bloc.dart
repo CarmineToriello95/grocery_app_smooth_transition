@@ -9,6 +9,7 @@ class Bloc {
   final BehaviorSubject<List<Product>> _bProductsList = BehaviorSubject();
   final BehaviorSubject<List<CartItem>> _bCartItems = BehaviorSubject();
   final BehaviorSubject<bool> _bShowTransitionAnimation = BehaviorSubject();
+  final BehaviorSubject<bool> _bIsProductsListOverlayActive = BehaviorSubject();
   final BehaviorSubject<bool> _bIsSlidingToCart = BehaviorSubject();
   List<Product> _lProductsList;
   List<CartItem> _lCartItems;
@@ -20,12 +21,14 @@ class Bloc {
     _lCartItems = List();
     _bCartItems.sink.add(_lCartItems);
     _bShowTransitionAnimation.sink.add(false);
+    _bIsProductsListOverlayActive.sink.add(false);
   }
 
   Stream<List<Product>> get sProductsList => _bProductsList.stream;
   Stream<List<CartItem>> get sCartItems => _bCartItems.stream;
   Stream<bool> get sShowTransitionAnimation => _bShowTransitionAnimation.stream;
   Stream<bool> get sIsSlidingToCart => _bIsSlidingToCart.stream;
+  Stream<bool> get sIsOverlayActive => _bIsProductsListOverlayActive.stream;
 
   List<Product> get productsList => _bProductsList.value;
   List<CartItem> get cartItems => _bCartItems.value;
@@ -58,6 +61,11 @@ class Bloc {
   triggerTransitionAnimation() =>
       _bShowTransitionAnimation.sink.add(!_bShowTransitionAnimation.value);
 
+  triggerOverlay() => _bIsProductsListOverlayActive.sink
+      .add(!_bIsProductsListOverlayActive.value);
+  activeOverlay() => _bIsProductsListOverlayActive.sink.add(true);
+  disableOverlay() => _bIsProductsListOverlayActive.sink.add(false);
+
   slideToCart() => _bIsSlidingToCart.sink.add(true);
 
   dispose() {
@@ -65,5 +73,6 @@ class Bloc {
     _bCartItems.close();
     _bShowTransitionAnimation.close();
     _bIsSlidingToCart.close();
+    _bIsProductsListOverlayActive.close();
   }
 }
