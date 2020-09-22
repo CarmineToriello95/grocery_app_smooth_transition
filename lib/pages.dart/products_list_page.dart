@@ -39,7 +39,7 @@ class ProductsListPage extends StatelessWidget {
               opacity: snapshot.hasData && snapshot.data ? 0 : 1,
               child: Column(
                 children: <Widget>[
-                  HeaderSection(),
+                  CustomAppBar(),
                   BodySection(
                     products:
                         (BlocProvider.of(context).bloc as Bloc).productsList,
@@ -53,29 +53,29 @@ class ProductsListPage extends StatelessWidget {
   }
 }
 
-class HeaderSection extends StatelessWidget {
+class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 56,
-      child: NavigationToolbar(
-        leading: IconButton(
-          icon: Icon(Icons.keyboard_arrow_left),
-          onPressed: () {},
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0.0,
+      leading: IconButton(
+        icon: Icon(Icons.keyboard_arrow_left),
+        onPressed: () {},
+      ),
+      title: Text(
+        'Pasta & Noodles',
+        style: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.w600,
         ),
-        middle: Text(
-          'Pasta & Noodles',
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        trailing: IconButton(
+      ),
+      actions: <Widget>[
+        IconButton(
           icon: Icon(Icons.sort),
           onPressed: () {},
         ),
-        centerMiddle: false,
-      ),
+      ],
     );
   }
 }
