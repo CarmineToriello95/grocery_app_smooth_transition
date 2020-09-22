@@ -4,6 +4,7 @@ class CartItem {
   int id;
   Product product;
   int quantity;
+  double totalAmount;
 
-  CartItem({this.id,this.product, this.quantity});
+  CartItem({this.id, this.product, this.quantity, this.totalAmount});
 }

@@ -18,10 +18,13 @@ class ProductDescriptionPage extends StatefulWidget {
 
 class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
   Object heroTag;
+  int quantity;
+
   @override
   void initState() {
     super.initState();
     heroTag = widget.product.id;
+    quantity = 1;
   }
 
   @override
@@ -92,7 +95,19 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    QuantityButton(),
+                                    QuantityButton(
+                                      quantity: quantity,
+                                      onDecrement: () {
+                                        setState(() {
+                                          quantity--;
+                                        });
+                                      },
+                                      onIncrement: () {
+                                        setState(() {
+                                          quantity++;
+                                        });
+                                      },
+                                    ),
                                     Text(
                                       '\$ ${widget.product.price}',
                                       style: TextStyle(
@@ -151,7 +166,10 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                                     heroTag = '${widget.product.id}c';
                                   });
                                   (BlocProvider.of(context).bloc as Bloc)
-                                      .addProductToCart(widget.product, 1);
+                                      .addProductToCart(
+                                    widget.product,
+                                    quantity,
+                                  );
                                   Navigator.pop(context, true);
                                 },
                                 shape: RoundedRectangleBorder(
@@ -182,6 +200,11 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
 }
 
 class QuantityButton extends StatelessWidget {
+  final Function onDecrement;
+  final Function onIncrement;
+  final int quantity;
+
+  QuantityButton({this.onDecrement, this.onIncrement, this.quantity});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -194,15 +217,15 @@ class QuantityButton extends StatelessWidget {
         children: <Widget>[
           IconButton(
             icon: Icon(Icons.remove),
-            onPressed: () {},
+            onPressed: onDecrement,
           ),
           Text(
-            '1',
+            '$quantity',
             style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
           ),
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: () {},
+            onPressed: onIncrement,
           ),
         ],
       ),

@@ -12,35 +12,46 @@ class Bloc {
   final BehaviorSubject<bool> _bIsSlidingToCart = BehaviorSubject();
   List<Product> _lProductsList;
   List<CartItem> _lCartItems;
+  double _totalAmount = deliveryPrice;
 
   Bloc() {
     _lProductsList = hardCodedProducts;
     _bProductsList.sink.add(_lProductsList);
-    _lCartItems = hardCodedCartList;
+    _lCartItems = List();
     _bCartItems.sink.add(_lCartItems);
     _bShowTransitionAnimation.sink.add(false);
   }
 
   Stream<List<Product>> get sProductsList => _bProductsList.stream;
   Stream<List<CartItem>> get sCartItems => _bCartItems.stream;
-  Stream<bool> get sShowTransitionAnimation =>
-      _bShowTransitionAnimation.stream;
+  Stream<bool> get sShowTransitionAnimation => _bShowTransitionAnimation.stream;
   Stream<bool> get sIsSlidingToCart => _bIsSlidingToCart.stream;
 
   List<Product> get productsList => _bProductsList.value;
   List<CartItem> get cartItems => _bCartItems.value;
+
+  double get totalAmount => _totalAmount;
 
   addProductToCart(Product product, int quantity) {
     bool isProductInTheCartList = false;
     _lCartItems.forEach((e) {
       if (e.product.id == product.id) {
         e.quantity += quantity;
+        e.totalAmount += quantity * product.price;
         isProductInTheCartList = true;
       }
     });
     if (!isProductInTheCartList) {
-      _lCartItems.insert(0, CartItem(product: product, quantity: quantity,id: product.id));
+      _lCartItems.insert(
+        0,
+        CartItem(
+            product: product,
+            quantity: quantity,
+            id: product.id,
+            totalAmount: quantity * product.price),
+      );
     }
+    _totalAmount += quantity * product.price;
     _bCartItems.sink.add(_lCartItems);
   }
 

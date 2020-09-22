@@ -25,8 +25,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  GlobalKey<AnimatedListState> listKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +47,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               (1 - animation.value),
                         ),
                         child: CartPage(
-                          listKey: listKey,
                           headerOpacity: 1 - animation.value,
                         ),
                       ),
@@ -64,16 +61,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           builder: (_, snapshot) {
                             return ProductsListPage(
                               productSelected: (product) async {
-                                var value = await Navigator.of(context)
+                                await Navigator.of(context)
                                     .push(_createRoute(product));
-                                Future.delayed(Duration(milliseconds: 200),
-                                    () => _bloc.triggerTransitionAnimation());
-                                if (value) {
-                                  listKey.currentState.insertItem(
-                                    0,
-                                    duration: Duration(milliseconds: 500),
-                                  );
-                                }
+                                Future.delayed(
+                                  Duration(milliseconds: 200),
+                                  () => _bloc.triggerTransitionAnimation(),
+                                );
                               },
                             );
                           },

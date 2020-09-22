@@ -6,9 +6,8 @@ import '../constants.dart';
 
 class CartPage extends StatefulWidget {
   final double headerOpacity;
-  final GlobalKey listKey;
 
-  const CartPage({this.headerOpacity = 1, this.listKey});
+  const CartPage({this.headerOpacity = 1});
 
   @override
   _CartPageState createState() => _CartPageState();
@@ -46,18 +45,17 @@ class _CartPageState extends State<CartPage> {
                 ),
                 title: Container(
                   height: 50.0,
-                  child: AnimatedList(
-                    key: widget.listKey,
-                    initialItemCount: _bloc.cartItems.length,
+                  child: ListView.builder(
+                    itemCount: _bloc.cartItems.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (_, index, animation) => Padding(
+                    itemBuilder: (_, index) => Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: Hero(
-                        tag: '${_bloc.cartItems[index].product.id}' + 'c',
+                        tag: '${_bloc.cartItems[index].id}' + 'c',
                         child: CircleAvatar(
                           backgroundColor: Colors.white,
-                          radius: 25.0,
+                          radius: 20.0,
                           child: Image.asset(
                             _bloc.cartItems[index].product.imagePath,
                             height: 35.0,
@@ -126,7 +124,7 @@ class _CartPageState extends State<CartPage> {
                     ],
                   ),
                   trailing: Text(
-                    '${_bloc.cartItems[index].product.price}',
+                    '${_bloc.cartItems[index].totalAmount}',
                     style: TextStyle(color: Colors.grey),
                   ),
                 ),
@@ -149,7 +147,7 @@ class _CartPageState extends State<CartPage> {
                 ),
               ),
               trailing: Text(
-                '\$30.00',
+                '\$$deliveryPrice',
                 style: TextStyle(
                   color: Colors.grey,
                 ),
@@ -169,7 +167,7 @@ class _CartPageState extends State<CartPage> {
                     ),
                   ),
                   Text(
-                    '\$59.97',
+                    '\$${_bloc.totalAmount}',
                     style: TextStyle(
                       color: cartPageTextColor,
                       fontSize: 24.0,
