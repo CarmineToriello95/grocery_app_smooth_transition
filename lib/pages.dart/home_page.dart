@@ -126,12 +126,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     if (animation.isDismissed || animation.isCompleted) {
       return;
     }
+    double direction = details.velocity.pixelsPerSecond.dy;
     if (details.velocity.pixelsPerSecond.dy.abs() >=
         MediaQuery.of(context).size.height) {
       double visualVelocity = -(details.velocity.pixelsPerSecond.dy /
           MediaQuery.of(context).size.height);
       animation.fling(velocity: visualVelocity);
-      _bloc.triggerOverlay();
+      direction>=0 ? _bloc.disableOverlay() : _bloc.activeOverlay();
     } else if (animation.value > 0.5) {
       animation.forward();
       _bloc.activeOverlay();
