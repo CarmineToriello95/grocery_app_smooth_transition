@@ -161,7 +161,7 @@ class _CartPageState extends State<CartPage> {
                   Text(
                     'Total:',
                     style: TextStyle(
-                      fontWeight: FontWeight.normal,
+                      fontWeight: FontWeight.w300,
                       color: cartPageTextColor,
                       fontSize: 22.0,
                     ),

@@ -7,7 +7,7 @@ const Color primaryColor = Color(0xFFF5F4EF);
 const Color cartPageTextColor = Color(0xFFFFFFFF);
 const Color buttonsColor = Color(0xFFFFBC41);
 
-const double deliveryPrice = 5;
+const double deliveryPrice = 4.99;
 
 const List<Product> hardCodedProducts = [
   Product(
